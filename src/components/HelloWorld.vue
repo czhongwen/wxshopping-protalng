@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-button>你好</el-button>
+    你好呀！{{msg}}
   </div>
 </template>
 
@@ -11,6 +11,8 @@ export default {
     return {
       msg: 'Welcome to Your Vue.js App'
     }
+  },
+  methods: {
   }
 }
 </script>

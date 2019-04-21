@@ -12,7 +12,7 @@ export default new Router({
       component: HelloWorld
     },
     {
-      path: '/page/productMange',
+      path: '/page/productMange/ProductMange',
       name: "ProductMange",
       component: ProductMange,
     }
