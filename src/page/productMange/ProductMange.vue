@@ -4,6 +4,8 @@
     <div style="width: 100vw;text-align: right;">
       <el-cascader size="mini" expand-trigger="hover" :options="primaryClassification" v-model="search.searchType" @change="handleChange">
       </el-cascader>
+      <el-button type="info" @click="getObtainedProducts" size="mini">已下架商品</el-button>
+      <el-button type="info" size="mini">缺货商品</el-button>
       <el-input v-bind="search.searchKey" placeholder="请输入关键字" size="mini" style="width: 10%;"></el-input>
       <el-button size="mini" style="width: 8%;margin-right: 2%;" type="primary" icon="el-icon-search" @click="getProductList">搜索</el-button>
     </div>
@@ -24,7 +26,8 @@
         <el-table-column prop="descount" label="折扣"></el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button @click="obtained(scope.row)" size="mini" type="danger">下架</el-button>
+            <el-button v-if="scope.row.status == 1" @click="obtained(scope.row)" size="mini" type="danger">下架</el-button>
+            <el-button v-else-if="scope.row.status == 0" @click="obtained(scope.row)" size="mini" type="success">上架</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -48,6 +51,7 @@ export default {
       search: {
         searchType: [],
         searchKey: "",
+        status: 1,
       },
       page: {
         limit: 10,
@@ -98,7 +102,8 @@ export default {
         typeId = _this.search.searchType[1];
       }
       this.$http.post("/api/product/getProductListV1", {
-        typeId: typeId,
+        IndexDetailId: typeId,
+        status: _this.search.status,
         offset: _this.page.offset,
         limit: _this.page.limit,
         order: _this.page.order === "" ? null : _this.page.order,
@@ -128,6 +133,7 @@ export default {
      * 选择分类
      */
     handleChange(value){
+      this.search.status = 1,
       this.search.searchType = value;
       this.page.offset = 0;
       this.getProductList();
@@ -155,26 +161,46 @@ export default {
      */
     obtained(info){
       let _this = this;
-      this.$confirm("确定要下架" + info.name + "这件商品吗？", "温馨提示", {
+      let status = 0;
+      let txt = "";
+      if (info.status == 0) {
+        txt = "上架";
+        status = 1;
+      } else if (info.status == 1) {
+        txt = "下架";
+        status = 0
+      } else {
+        return _this.$message.error("出现了脏数据，请联系管理员小哥哥");
+      }
+      this.$confirm("确定要"+ txt + info.name + "这件商品吗？", "温馨提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
       }).then(() => {
         _this.$http.post("/api/product/updateProduct", {
           id: info.id,
-          status: 0,
+          status: status,
         }).then((res) => {
           if (res.data.flag) {
             if (res.data.result) {
-              _this.$message.success("下架成功!");
+              _this.search.status = 1;
+              _this.search.offset = 0;
               _this.getProductList();
+              _this.$message.success(txt + "成功!");
             } else {
-              _this.$message.error("下架失败！");
+              _this.$message.error(txt + "失败！");
             }
           } else {
             _this.$message.error(res.data.msg);
           }
         })
       })
+    },
+    //查询已下架的商品
+    getObtainedProducts() {
+      let _this = this;
+      _this.search.status = 0;
+      _this.page.offset = 0;
+      _this.getProductList();
     }
   },
   created () {
