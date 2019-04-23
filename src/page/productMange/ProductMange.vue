@@ -108,13 +108,18 @@ export default {
         limit: _this.page.limit,
         order: _this.page.order === "" ? null : _this.page.order,
       }).then((res) => {
+        console.log(res.data.result);
         if (res.data.flag) {
-          if (res.data.result.list.length > 0) {
+          if (res.data.result.count > 0) {
             _this.tableData = [];
             _this.tableData = res.data.result.list;
             _this.page.totalCount = res.data.result.count;
           } else {
-            this.$message.error('对不起！未查询到信息！');
+            this.$message.error({
+              message:"对不起！未查询到信息",
+              center: true,
+              showClose: true,
+            });
           }
         } else {
           this.$message.error(res.data.msg);
@@ -125,7 +130,6 @@ export default {
      * 商品详情页
      */
     productDetail(row){
-      console.log(row.id);
       this.$message.info("" + row.id);
     },
 
@@ -170,7 +174,11 @@ export default {
         txt = "下架";
         status = 0
       } else {
-        return _this.$message.error("出现了脏数据，请联系管理员小哥哥");
+        return _this.$message.error({
+          message:"出现了脏数据，请联系管理员小哥哥",
+          center: true,
+          showClose: true,
+        });
       }
       this.$confirm("确定要"+ txt + info.name + "这件商品吗？", "温馨提示", {
         confirmButtonText: "确定",
