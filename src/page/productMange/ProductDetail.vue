@@ -34,29 +34,51 @@
       </div>
     </div>
 
-    <div style="width: 100%;display: block;margin-top: 4%;">
-      12121
+    <div id="app" style="width: 100%;display: block;margin-top: 4%;">
+      <UE :config=config :defaultMsg=defaultMsg :id=ue1 ref="ue1"></UE>
     </div>
 
   </div>
 </template>
 
 <script>
+  import UE from '../../comment/UE.vue';
 export default {
   name: 'ProductDetail',
-  data () {
-    return {
-      id: null,
-      pics:[],
-      name:"",
-      info:"",
-      price:0,
-      num:0,
-      discount:0,
-      status: true,
-      time:"",
-    }
-  },
+  components: {UE},
+    data () {
+      return {
+        id: null,
+        pics:[],
+        name:"",
+        info:"",
+        price:0,
+        num:0,
+        discount:0,
+        status: true,
+        time:"",
+        config: {
+          initialFrameWidth: null,
+          initialFrameHeight: 350,
+          toolbars: [
+            ['fullscreen', 'source', '|', 'undo', 'redo', '|',
+              'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc', '|',
+              'rowspacingtop', 'rowspacingbottom', 'lineheight', '|',
+              'customstyle', 'paragraph', 'fontfamily', 'fontsize', '|',
+              'directionalityltr', 'directionalityrtl', 'indent', '|',
+              'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|', 'touppercase', 'tolowercase', '|',
+              'link', 'unlink', 'anchor', '|', 'imagenone', 'imageleft', 'imageright', 'imagecenter', '|',
+              'insertimage', 'emotion', 'scrawl', 'insertvideo', 'music', 'attachment', 'map', 'gmap', 'insertframe', 'insertcode', 'webapp', 'pagebreak', 'template', 'background', '|',
+              'horizontal', 'date', 'time', 'spechars', 'snapscreen', 'wordimage', '|',
+              'inserttable', 'deletetable', 'insertparagraphbeforetable', 'insertrow', 'deleterow', 'insertcol', 'deletecol', 'mergecells', 'mergeright', 'mergedown', 'splittocells', 'splittorows', 'splittocols', 'charts', '|',
+              'print', 'preview', 'searchreplace', 'drafts', 'help']
+          ],//'simpleupload',单个图片上传，不显示
+        },
+        defaultMsg: '',
+        ue1: "ue1", // 不同编辑器必须不同的id
+      //---- end----- ue 编辑器相关
+      }
+    },
   methods: {
     getProductInfo(id) {
       let _this = this;
@@ -65,6 +87,7 @@ export default {
       }).then((res) => {
         if (res.data.flag) {
           if (res.data.result != null) {
+            console.log(res.data);
             let data = res.data.result
             _this.pics = []
             _this.pics.push(data.image1);
@@ -77,6 +100,7 @@ export default {
             _this.info = data.info
             _this.num = data.num
             _this.discount = data.descount
+            _this.defaultMsg = data.detail;
             _this.status = data.status === 1 ? true : false;
           } else {
             _this.$message.error({
@@ -94,7 +118,8 @@ export default {
         }
       })
     },
-
+    //获取富文本内容
+    // this.$refs.uel.getUeContent();
     //修改状态
     updateStatus(){
       let _this = this;

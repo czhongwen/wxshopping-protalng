@@ -7,6 +7,7 @@ import ElementUi from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import VueResource from 'vue-resource'
 import instance_ from './api/index';
+import '../static/UE/ueditor.parse.min.js'
 
 Vue.prototype.$http = instance_ //axios实例
 Vue.config.productionTip = false
