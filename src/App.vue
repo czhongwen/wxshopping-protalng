@@ -1,12 +1,16 @@
 <template>
+
   <div id="app">
+    <Head></Head>
     <router-view/>
   </div>
 </template>
 
 <script>
+  import Head from './page/layout/Head.vue'
 export default {
-  name: 'App'
+  name: 'App',
+  components:{Head}
 }
 </script>
 

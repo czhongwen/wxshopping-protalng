@@ -1,11 +1,11 @@
 <template>
   <div style="border-radius: 3%;margin-bottom: 1%;">
-    <el-menu :default-active="activeIndex" :router="true" active-text-color="#ffd04b" background-color="#545c64" class="el-menu-demo" mode="horizontal" style="border-radius: 3%" text-color="#fff">
-      <el-menu-item index="ProductMange">商品管理</el-menu-item>
+    <el-menu :default-active="activeIndex" :router="true" @select="habl" active-text-color="#ffd04b" background-color="#545c64" class="el-menu-demo" mode="horizontal" style="border-radius: 3%" text-color="#fff">
+      <el-menu-item index="/page/productMange/ProductMange">商品管理</el-menu-item>
       <el-menu-item index="">购物车管理</el-menu-item>
       <el-menu-item index="3">地址管理</el-menu-item>
       <el-menu-item index="4">订单管理</el-menu-item>
-      <el-menu-item index="5">商品分类管理</el-menu-item>
+      <el-menu-item index="/page/productType/ProductTypeMange">商品分类管理</el-menu-item>
     </el-menu>
   </div>
 </template>
@@ -15,11 +15,13 @@
       name: "Head",
       data(){
           return {
-            activeIndex: "ProductMange",
+            activeIndex: "/page/productMange/ProductMange",
           }
       },
       methods: {
-
+        habl(key, path){
+          console.log(key, path);
+        }
       }
     }
 </script>
