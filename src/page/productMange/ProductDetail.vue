@@ -1,5 +1,12 @@
 <template>
   <div>
+
+    <!--导航栏-->
+    <div style="width: 98%;margin-left: 1%;">
+      <Head></Head>
+    </div>
+
+    <!--主体内容-->
     <div style="width: 100%">
       <div style="width: 43%;float: left;margin-left: 1%;">
         <el-carousel style="width: 100%;height: 25%;background-color: gainsboro;display: inline-block" type="card">
@@ -38,14 +45,19 @@
       <UE :config=config :defaultMsg=defaultMsg :id=ue1 ref="ue1"></UE>
     </div>
 
+    <div>
+      <Bottom></Bottom>
+    </div>
   </div>
 </template>
 
 <script>
   import UE from '../../comment/UE.vue';
+  import Head from '../layout/head.vue';
+  import Bottom from '../layout/bottom.vue';
 export default {
   name: 'ProductDetail',
-  components: {UE},
+  components: {UE,Head,Bottom},
     data () {
       return {
         id: null,

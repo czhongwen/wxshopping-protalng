@@ -1,5 +1,11 @@
 <template>
   <div>
+
+    <!--导航栏-->
+    <div style="width: 98%;margin-left: 1%;">
+      <Head></Head>
+    </div>
+
     <!--头部导航-->
     <div style="width: 100vw;text-align: right;">
       <el-cascader size="mini" expand-trigger="hover" :options="primaryClassification" v-model="search.searchType" @change="handleChange">
@@ -38,11 +44,18 @@
         :total="page.totalCount">
       </el-pagination>
     </div>
+
+    <div>
+      <Bottom></Bottom>
+    </div>
   </div>
 </template>
 
 <script>
+  import Bottom from '../layout/bottom.vue';
+  import Head from '../layout/head.vue';
 export default {
+  components: {Head,Bottom},
   name: 'ProductMange',
   data () {
     return {
