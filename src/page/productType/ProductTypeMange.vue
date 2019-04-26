@@ -16,8 +16,8 @@
       </el-table-column>
     </el-table>
     <el-dialog :visible.sync="productTypeVisible" center title="修改一级分类" width="30%">
-      <span style="line-height: 100%">
-        <label style="line-height: 50%">图片</label>
+      <span style="height: 100%">
+        <label style="line-height: 100%">图片</label>
         <img :src="'http://localhost:8081' + typeImage" style="width: 50%;height: 50%;"/>
       </span>
       <span class="dialog-footer" slot="footer">
@@ -79,5 +79,8 @@
   }
   .el-message-box__btns{
     text-align: center;
+  }
+  .el-dialog__body {
+    text-align: center !important;
   }
 </style>

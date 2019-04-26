@@ -1,16 +1,28 @@
 <template>
 
-  <div id="app">
-    <Head></Head>
-    <router-view/>
+  <div>
+    <el-container>
+      <el-header>
+        <Head></Head>
+      </el-header>
+      <el-main>
+        <div id="app">
+          <router-view/>
+        </div>
+      </el-main>
+      <!--<el-footer>-->
+        <!--<Bottom></Bottom>-->
+      <!--</el-footer>-->
+    </el-container>
   </div>
 </template>
 
 <script>
   import Head from './page/layout/Head.vue'
+  import Bottom from './page/layout/Bottom.vue'
 export default {
   name: 'App',
-  components:{Head}
+  components:{Head, Bottom}
 }
 </script>
 
